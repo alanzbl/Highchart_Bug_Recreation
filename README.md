@@ -23,7 +23,7 @@ yarn run dev
 ```
 
 # Error Flow
-1. After run, two windows get generated\n
+1. After run, two windows get generated
 2. window 1: press any button, then press button 'load background'
 3. window 2: press any button, then you are in the highchart page
 4. window 1: press button 'add'
