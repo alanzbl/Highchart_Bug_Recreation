@@ -2,6 +2,11 @@
 
 > highchart unit test 
 
+#### Install Vue Loader
+```
+npm install -g vue-cli
+```
+
 #### Build Setup
 
 ``` bash
