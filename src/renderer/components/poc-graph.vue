@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>
+  <div ref="lineCharts">
+    <!--<vue-highcharts :options="options" ref="lineCharts"></vue-highcharts>-->
   </div>
 </template>
  
 <script>
-import VueHighcharts from 'vue2-highcharts'
+//  import VueHighcharts from 'vue2-highcharts'
 import highcharts from 'highcharts';
 const asyncData = {
   name: 'Tokyo',
@@ -22,10 +22,11 @@ const asyncData = {
 }
 export default{
     components: {
-        VueHighcharts
+        //  VueHighcharts
     },
     data(){
       return{
+        myChart: null,
         pubsub: null,
         options: {
           chart: {
@@ -72,22 +73,27 @@ export default{
       }
     },
     mounted(){
+      this.setupGraph();
       this.pubsub = require('electron').remote.require('electron-pubsub');
       this.pubsub.subscribe('pong', this.testFunction);
       this.pubsub.publish('test');
     },
     methods: {
+        setupGraph() {
+          this.myChart = highcharts.chart(this.$refs['lineCharts'], this.options);
+        },
         getGraph() {
-            return (this.$refs['lineCharts'].chart);
+            return (this.myChart);
         },
         testFunction(event, input){
           console.log('received: ' + input.point);
-            let lineCharts = this.$refs.lineCharts.chart;
+            let lineCharts = this.myChart;
             lineCharts.series[0].addPoint(input.point, true, false, false);
         }
 
     },
     beforeDestroy() {
+      this.myChart.destroy();
         console.log("graph destroyed");
       this.pubsub.unsubscribe('pong');
     }
